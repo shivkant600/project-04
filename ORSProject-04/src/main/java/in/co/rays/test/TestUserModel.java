@@ -16,13 +16,15 @@ public class TestUserModel {
 
 		// testdelete();
 
-		 testsearch();
+		// testsearch();
 
 		// findbylogin();
 		//testfindbypk();
+		testAuthenticate();
 
 	}
 
+	
 	private static void testadd() throws Exception {
 		UserBean bean = new UserBean();
 		UserModel model = new UserModel();
@@ -162,5 +164,35 @@ public class TestUserModel {
 		}
 
 	}
+	
+	
+	private static void testAuthenticate() throws Exception {
+	UserModel model = new UserModel();
+	
+	UserBean bean = model.authneticate("ravisharma@gmail.com","password123");
+	
+	
+	if(bean != null) {
+		System.out.println(bean.getId());
+		System.out.println("\t" + bean.getFirstName());
+		System.out.println("\t" + bean.getLastName());
+		System.out.println("\t" + bean.getLogin());
+		System.out.println("\t" + bean.getPassword());
+		System.out.println("\t" + bean.getDob());
+		System.out.println("\t" + bean.getMobileNo());
+		System.out.println("\t" + bean.getRoleId());
+		System.out.println("\t" + bean.getGender());
+		System.out.println("\t" + bean.getCreatedBy());
+		System.out.println("\t" + bean.getModifiedBy());
+		System.out.println("\t" + bean.getCreatedDatetime());
+		System.out.println("\t" + bean.getModifiedDatetime());
+
+		
+	}
+	else {
+		System.out.println("user not found");
+	}
+	}
+
 
 }

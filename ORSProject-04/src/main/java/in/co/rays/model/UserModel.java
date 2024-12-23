@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.source.tree.WhileLoopTree;
+
 import in.co.rays.bean.UserBean;
 import in.co.rays.exception.ApplicationException;
 import in.co.rays.exception.DuplicateRecordException;
@@ -131,7 +133,6 @@ public class UserModel {
 		Connection conn = JDBCDataSource.getConnection();
 
 		StringBuffer sql = new StringBuffer("select * from st_user where 1=1");
-		
 
 		if (bean != null) {
 			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
@@ -139,16 +140,14 @@ public class UserModel {
 			}
 
 		}
-		
-		
+
 		if (pageSize > 0) {
 			sql.append(" limit " + pageNo + "," + pageSize);
 
 		}
 
-		System.out.println("sql="+sql.toString());
+		System.out.println("sql=" + sql.toString());
 
-		
 		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		ResultSet rs = pstmt.executeQuery();
 		List list = new ArrayList();
@@ -249,6 +248,46 @@ public class UserModel {
 
 		}
 		return bean;
+	}
+
+	public List list() throws Exception {
+		return search(null, 0, 0);
+	}
+
+	public UserBean authneticate(String login, String password) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_user where login = ? and password =?");
+
+		pstmt.setString(1, login);
+		pstmt.setString(2, password);
+
+		ResultSet rs = pstmt.executeQuery();
+
+		UserBean bean = null;
+
+		while (rs.next()) {
+
+			bean = new UserBean();
+
+			bean.setId(rs.getLong(1));
+			bean.setFirstName(rs.getString(2));
+			bean.setLastName(rs.getString(3));
+			bean.setLogin(rs.getString(4));
+			bean.setPassword(rs.getString(5));
+			bean.setDob(rs.getDate(6));
+			bean.setMobileNo(rs.getString(7));
+			bean.setRoleId(rs.getLong(8));
+			bean.setGender(rs.getString(9));
+			bean.setCreatedBy(rs.getString(10));
+			bean.setModifiedBy(rs.getString(11));
+			bean.setCreatedDatetime(rs.getTimestamp(12));
+			bean.setModifiedDatetime(rs.getTimestamp(13));
+
+		}
+		return bean;
+
 	}
 
 }

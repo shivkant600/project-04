@@ -1,5 +1,13 @@
+<%@page import="in.co.rays.ctl.ORSView"%>
 <html>
 <body>
-<h2>Hello World!</h2>
+	<h2>
+		<center>
+		
+		<br>
+		<br>
+			<a href="<%=ORSView.WELCOME_CTL%>">Welcome</a>
+		</center>
+	</h2>
 </body>
 </html>
