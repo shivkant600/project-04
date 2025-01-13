@@ -1,29 +1,27 @@
 package in.co.rays.model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.co.rays.bean.DocterBean;
-
+import in.co.rays.bean.CustomerBean;
 import in.co.rays.util.JDBCDataSource;
 
-public class DocterModel {
+public class CustomerModel {
 
-	public void add(DocterBean bean) throws Exception {
+	public void add(CustomerBean bean) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("insert into st_docter values(?, ?, ?, ?, ?)");
+		PreparedStatement pstmt = conn.prepareStatement("insert into st_customer values(?, ?, ?, ?, ?)");
 
 		pstmt.setLong(1, nextpk());
-		pstmt.setString(2, bean.getName());
-		pstmt.setDate(3, new Date(bean.getDob().getTime()));
-		pstmt.setString(4, bean.getmobile());
-		pstmt.setString(5, bean.getexperties());
+		pstmt.setString(2, bean.getClientName());
+		pstmt.setString(3, bean.getLocation());
+		pstmt.setString(4, bean.getNumber());
+		pstmt.setString(5, bean.getImportance());
 
 		int i = pstmt.executeUpdate();
 
@@ -33,16 +31,16 @@ public class DocterModel {
 
 	}
 
-	public void update(DocterBean bean) throws Exception {
+	public void update(CustomerBean bean) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn
-				.prepareStatement("update st_docter set name=?,dob=?,mobile=?,experties=? where id =?");
+		PreparedStatement pstmt = conn.prepareStatement(
+				"update st_customer set clientname = ?, location = ?, number = ?, importance = ? where id = ?");
 
-		pstmt.setString(1, bean.getName());
-		pstmt.setDate(2, new Date(bean.getDob().getTime()));
-		pstmt.setString(3, bean.getmobile());
-		pstmt.setString(4, bean.getexperties());
+		pstmt.setString(1, bean.getClientName());
+		pstmt.setString(2, bean.getLocation());
+		pstmt.setString(3, bean.getNumber());
+		pstmt.setString(4, bean.getImportance());
 
 		pstmt.setLong(5, bean.getId());
 
@@ -57,7 +55,7 @@ public class DocterModel {
 	public void delete(long id) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("delete from st_docter where id = ?");
+		PreparedStatement pstmt = conn.prepareStatement("delete from st_customer where id = ?");
 
 		pstmt.setLong(1, id);
 
@@ -71,11 +69,17 @@ public class DocterModel {
 		return search(null, 0, 0);
 	}
 
-	public List search(DocterBean bean, int pageNo, int pageSize) throws Exception {
+	public List search(CustomerBean bean, int pageNo, int pageSize) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		StringBuffer sql = new StringBuffer("select * from st_docter where 1 = 1");
+		StringBuffer sql = new StringBuffer("select * from st_customer where 1 = 1");
+
+		if (bean != null) {
+			if (bean.getImportance() != null && bean.getImportance().length() > 0) {
+				sql.append(" and importance like '" + bean.getImportance() + "'");
+			}
+		}
 
 		if (pageSize > 0) {
 
@@ -94,13 +98,13 @@ public class DocterModel {
 
 		while (rs.next()) {
 
-			bean = new DocterBean();
+			bean = new CustomerBean();
 
 			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setDob(rs.getDate(3));
-			bean.setmobile(rs.getString(4));
-			bean.setexperties(rs.getString(5));
+			bean.setClientName(rs.getString(2));
+			bean.setLocation(rs.getString(3));
+			bean.setNumber(rs.getString(4));
+			bean.setImportance(rs.getString(5));
 
 			list.add(bean);
 
@@ -117,7 +121,7 @@ public class DocterModel {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_docter");
+		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_customer");
 
 		ResultSet rs = pstmt.executeQuery();
 
@@ -129,25 +133,25 @@ public class DocterModel {
 		return pk + 1;
 	}
 
-	public DocterBean findByPk(long id) throws Exception {
+	public CustomerBean findByPk(long id) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_docter where id = ?");
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_customer where id=?");
 		pstmt.setLong(1, id);
 
 		ResultSet rs = pstmt.executeQuery();
 
-		DocterBean bean = null;
+		CustomerBean bean = null;
 
 		while (rs.next()) {
 
-			bean = new DocterBean();
+			bean = new CustomerBean();
 
 			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setDob(rs.getDate(3));
-			bean.setmobile(rs.getString(4));
-			bean.setexperties(rs.getString(5));
+			bean.setClientName(rs.getString(2));
+			bean.setLocation(rs.getString(3));
+			bean.setNumber(rs.getString(4));
+			bean.setImportance(rs.getString(5));
 
 		}
 

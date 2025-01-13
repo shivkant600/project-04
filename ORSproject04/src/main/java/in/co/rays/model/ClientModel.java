@@ -7,23 +7,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.co.rays.bean.DocterBean;
-
+import in.co.rays.bean.ClientBean;
 import in.co.rays.util.JDBCDataSource;
 
-public class DocterModel {
+public class ClientModel {
 
-	public void add(DocterBean bean) throws Exception {
+	public void add(ClientBean bean) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("insert into st_docter values(?, ?, ?, ?, ?)");
+		PreparedStatement pstmt = conn.prepareStatement("insert into st_client values(?, ?, ?, ?, ?)");
 
 		pstmt.setLong(1, nextpk());
-		pstmt.setString(2, bean.getName());
-		pstmt.setDate(3, new Date(bean.getDob().getTime()));
-		pstmt.setString(4, bean.getmobile());
-		pstmt.setString(5, bean.getexperties());
+		pstmt.setString(2, bean.getFullName());
+		pstmt.setDate(3, new Date(bean.getAppointmentDate().getTime()));
+		pstmt.setString(4, bean.getPhoneNo());
+		pstmt.setString(5, bean.getIllness());
 
 		int i = pstmt.executeUpdate();
 
@@ -33,18 +32,18 @@ public class DocterModel {
 
 	}
 
-	public void update(DocterBean bean) throws Exception {
+	public void update(ClientBean bean) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn
-				.prepareStatement("update st_docter set name=?,dob=?,mobile=?,experties=? where id =?");
+		PreparedStatement pstmt = conn.prepareStatement(
+				"update st_clent  full_name = ?, appoinment_date = ?, phone_no = ?, illness = ?,where id = ?");
 
-		pstmt.setString(1, bean.getName());
-		pstmt.setDate(2, new Date(bean.getDob().getTime()));
-		pstmt.setString(3, bean.getmobile());
-		pstmt.setString(4, bean.getexperties());
+		pstmt.setString(2, bean.getFullName());
+		pstmt.setDate(3, new Date(bean.getAppointmentDate().getTime()));
+		pstmt.setString(4, bean.getPhoneNo());
+		pstmt.setString(5, bean.getIllness());
 
-		pstmt.setLong(5, bean.getId());
+		pstmt.setLong(1, bean.getId());
 
 		int i = pstmt.executeUpdate();
 
@@ -57,7 +56,7 @@ public class DocterModel {
 	public void delete(long id) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("delete from st_docter where id = ?");
+		PreparedStatement pstmt = conn.prepareStatement("delete from st_client where id = ?");
 
 		pstmt.setLong(1, id);
 
@@ -71,11 +70,11 @@ public class DocterModel {
 		return search(null, 0, 0);
 	}
 
-	public List search(DocterBean bean, int pageNo, int pageSize) throws Exception {
+	public List search(ClientBean bean, int pageNo, int pageSize) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		StringBuffer sql = new StringBuffer("select * from st_docter where 1 = 1");
+		StringBuffer sql = new StringBuffer("select * from st_client where 1 = 1");
 
 		if (pageSize > 0) {
 
@@ -94,13 +93,13 @@ public class DocterModel {
 
 		while (rs.next()) {
 
-			bean = new DocterBean();
+			bean = new ClientBean();
 
 			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setDob(rs.getDate(3));
-			bean.setmobile(rs.getString(4));
-			bean.setexperties(rs.getString(5));
+			bean.setFullName(rs.getString(2));
+			bean.setAppointmentDate(rs.getDate(3));
+			bean.setPhoneNo(rs.getString(4));
+			bean.setIllness(rs.getString(5));
 
 			list.add(bean);
 
@@ -117,7 +116,7 @@ public class DocterModel {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_docter");
+		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_client");
 
 		ResultSet rs = pstmt.executeQuery();
 
@@ -129,25 +128,25 @@ public class DocterModel {
 		return pk + 1;
 	}
 
-	public DocterBean findByPk(long id) throws Exception {
+	public ClientBean findByPk(long id) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_docter where id = ?");
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_client where id=?");
 		pstmt.setLong(1, id);
 
 		ResultSet rs = pstmt.executeQuery();
 
-		DocterBean bean = null;
+		ClientBean bean = null;
 
 		while (rs.next()) {
 
-			bean = new DocterBean();
+			bean = new ClientBean();
 
 			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setDob(rs.getDate(3));
-			bean.setmobile(rs.getString(4));
-			bean.setexperties(rs.getString(5));
+			bean.setFullName(rs.getString(2));
+			bean.setAppointmentDate(rs.getDate(3));
+			bean.setPhoneNo(rs.getString(4));
+			bean.setIllness(rs.getString(5));
 
 		}
 

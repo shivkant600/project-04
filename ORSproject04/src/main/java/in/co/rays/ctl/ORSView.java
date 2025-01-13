@@ -37,10 +37,20 @@ public interface ORSView {
 	public String TIMETABLE_LIST_VIEW = PAGE_FOLDER + "/TimetableListView.jsp";
 	public String FACULTY_VIEW = PAGE_FOLDER + "/FacultyView.jsp";
 	public String FACULTY_LIST_VIEW = PAGE_FOLDER + "/FacultyListView.jsp";
+	public String Docter_view = PAGE_FOLDER + "/DocterView.jsp";
+	public String DOCTER_LIST_VIEW = PAGE_FOLDER + "/DocterListView.jsp";
+	public String CLIENT_VIEW = PAGE_FOLDER + "/ClientView.jsp";
+	public String CUSTOMER_VIEW = PAGE_FOLDER + "/CustomerView.jsp";
+	public String CUSTOMER_LIST_VIEW = PAGE_FOLDER + "/CustomerListView.jsp";
 
 	public String PURCHASE_CTL = APP_CONTEXT + "/ctl/PurchaseCtl";
 	public String PURCHASE_LIST_CTL = APP_CONTEXT + "/ctl/PurchaseListCtl";
 
+	public String CUSTOMER_LISTCTL = APP_CONTEXT + "/ctl/CustomerListCtl";
+	public String CUSTOMER_CTL = APP_CONTEXT + "/ctl/CustomerCtl";
+	public String CLIENT_CTL = APP_CONTEXT + "/ctl/ClientCtl";
+	public String DOCTER_LIST_CTL = APP_CONTEXT + "/ctl/DocterListCtl";
+	public String DOCTER_CTL = APP_CONTEXT + "/ctl/DocterCtl";
 	public String MARKSHEET_CTL = APP_CONTEXT + "/ctl/MarksheetCtl";
 	public String MARKSHEET_LIST_CTL = APP_CONTEXT + "/ctl/MarksheetListCtl";
 	public String USER_CTL = APP_CONTEXT + "/ctl/UserCtl";
